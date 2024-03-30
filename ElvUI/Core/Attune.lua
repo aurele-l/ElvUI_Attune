@@ -1,5 +1,4 @@
 local E, L, V, P, G = unpack(ElvUI);
-local B = E:GetModule("Bags")
 
 Attune = {}
 local unpack = unpack
@@ -73,6 +72,7 @@ end
 
 function Attune:CheckItemValid(itemId)
 	if type(itemId) ~= "number" then return 0 end
+	if not CanAttuneItemHelper then return 0 end
 	return CanAttuneItemHelper(itemId)
 end
 
@@ -87,10 +87,10 @@ function Attune:UpdateItemLevelText(slot, itemId)
 
 	if itemId and itemId ~= 0 then
 		local _, _, itemRarity, iLvl, _, _, _, _, itemEquipLoc, _, _ = GetItemInfo(itemId)
-		if iLvl and B.db.itemLevel and (itemEquipLoc ~= nil and itemEquipLoc ~= "" and itemEquipLoc ~= "INVTYPE_AMMO" and itemEquipLoc ~= "INVTYPE_BAG" and itemEquipLoc ~= "INVTYPE_QUIVER" and itemEquipLoc ~= "INVTYPE_TABARD") and (itemRarity and itemRarity > 1) and iLvl >= B.db.itemLevelThreshold then
+		if iLvl and E.db.bags.itemLevel and (itemEquipLoc ~= nil and itemEquipLoc ~= "" and itemEquipLoc ~= "INVTYPE_AMMO" and itemEquipLoc ~= "INVTYPE_BAG" and itemEquipLoc ~= "INVTYPE_QUIVER" and itemEquipLoc ~= "INVTYPE_TABARD") and (itemRarity and itemRarity > 1) and iLvl >= E.db.bags.itemLevelThreshold then
 			slot.itemLevel:SetText(iLvl)
-			if B.db.itemLevelCustomColorEnable then
-				slot.itemLevel:SetTextColor(B.db.itemLevelCustomColor.r, B.db.itemLevelCustomColor.g, B.db.itemLevelCustomColor
+			if E.db.bags.itemLevelCustomColorEnable then
+				slot.itemLevel:SetTextColor(E.db.bags.itemLevelCustomColor.r, E.db.bags.itemLevelCustomColor.g, E.db.bags.itemLevelCustomColor
 					.b)
 			else
 				slot.itemLevel:SetTextColor(GetItemQualityColor(itemRarity))
